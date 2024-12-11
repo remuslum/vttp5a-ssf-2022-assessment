@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ import sg.nus.edu.iss.vttp5a_ssf_2022_assessment.util.Utility;
 public class NewsService {
     @Autowired
     MapRepo mapRepo;
+
+    @Value("${api.key}")
+    private String apiKey;
 
     public List<Article> getArticles(){
         List<Article> articleList = new ArrayList<>();
@@ -71,7 +75,7 @@ public class NewsService {
     
     private ResponseEntity<String> getCyrptoData(){
         RequestEntity<Void> request = RequestEntity.get(Utility.NEWSARTICLE)
-        .header("Authorization", "Bearer " + Utility.API_KEY)
+        .header("Authorization", "Bearer " + apiKey)
         .accept(MediaType.APPLICATION_JSON).build();
 
         RestTemplate restTemplate = new RestTemplate();
